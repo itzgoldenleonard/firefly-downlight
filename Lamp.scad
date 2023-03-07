@@ -32,15 +32,16 @@ module snap_fit_female(length) {
 
 module snap_fit_male(length) {
     // This part bends
-    body_width = 1.2;
+    body_width = 0.8;
     head_height = 3;
     head_width = 2.5;
+    epsilon = 0.3;
 
     linear_extrude(length) union() {
         translate([-body_width, 0, 0]) square([body_width, head_height * 2]);
         polygon([
-            [0, head_height],
-            [head_width, head_height],
+            [0, head_height + epsilon],
+            [head_width, head_height + epsilon],
             [0, head_height * 2]
         ]);
     }
