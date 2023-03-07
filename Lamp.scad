@@ -1,16 +1,16 @@
 // Female end
+/*
 for (i = [0, 1]) {
     mirror([i, 0, 0]) translate([-6, 0, 0]) rotate([90, 0, 0]) snap_fit_female(10);
 }
 translate([-9, -10, -2]) cube([18, 10, 2]);
+*/
 
 // Male end
-/*
 for (i = [0, 1]) {
     mirror([i, 0, 0]) translate([6 - 2.5, 0, 0]) rotate([-90, 0, 0]) snap_fit_male(10);
 }
-translate([-3.5, 0, -2]) cube([7, 10, 2]);
-*/
+translate([-3.5, 0, 0]) cube([7, 10, 2]);
 
 
 module snap_fit_female(length) {
@@ -32,7 +32,7 @@ module snap_fit_female(length) {
 
 module snap_fit_male(length) {
     // This part bends
-    body_width = 1.5;
+    body_width = 1.2;
     head_height = 3;
     head_width = 2.5;
 
