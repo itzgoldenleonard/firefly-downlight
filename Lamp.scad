@@ -1,24 +1,77 @@
 $fa = 1;
 $fs = $preview ? 1 : 0.15;
 
-// Female
-difference() {
-    union() {
-        translate([-3.5, 0, 0]) cube([7, 2.5, 10]);
-        translate([(3.5 + 0.5) / 2, 0.3, 2]) sphere(d = 1.5);
-        translate([(3.5 + 0.5) / -2, 0.3, 2]) sphere(d = 1.5);
-        translate([-3.5, 0, -1]) cube([7, 2.5, 1]);
+//dovetail_mount_bottom();
+dovetail_mount_top();
+
+// TODO: Clean up all of this code a bunch
+module dovetail_mount_top() {
+    width = 30 + 14 - 2 * 2 - 0.2 * 2;
+    middle_dovetail_offset = (((30 + 14) / 2) - 1) / 2;
+
+    difference() {
+        union() {
+            translate([-width / 2, 0, 0]) cube([width, 25, 1 + 1.5]);
+            translate([-width / 2, -1, 0]) cube([width, 1, 1 + 1.5]);
+            for (i = [0, 1]) {
+                mirror([i, 0, 0]) {
+                    // Nubs
+                    translate([middle_dovetail_offset / 2, 2, 0.3]) sphere(d = 1.5);
+                    translate([middle_dovetail_offset * 1.5, 2, 0.3]) sphere(d = 1.5);
+                }
+            }
+        }
+
+        rotate([-90, 180, 0]) dovetail_female(25);
+        // Middle dovetails
+        for (i = [0, 1]) {
+            mirror([i, 0, 0]) {
+                translate([middle_dovetail_offset, 0, 0]) rotate([-90, 180, 0]) dovetail_female(25);
+                translate([width / 2 + 2.4 / 2, 0, 0]) rotate([-90, 180, 0]) dovetail_female(25);
+            }
+        }
     }
-    dovetail_female(10);
 }
 
-// Male
-difference() {
-    translate([-3.5, -1.5, 0]) cube([7, 1.5, 10]);
-    rotate([0, 90, 0]) translate([-2, 0.3, 1]) cylinder(h = 3.5 - 1, d = 1.7);
-    rotate([0, -90, 0]) translate([2, 0.3, 1]) cylinder(h = 3.5 - 1, d = 1.7);
+module dovetail_mount_bottom() {
+    rotate([90, 0, 0]) dovetail_male(25);
+    // Middle dovetails
+    for (i = [0, 1]) {
+        mirror([i, 0, 0]) {
+            translate([(((30 + 14) / 2) - 1) / 2, 0, 0]) rotate([90, 0, 0]) dovetail_male(25);
+        }
+    }
+    //#translate([(((30 + 14) / 2) - 1) / -2, 0, 0]) rotate([90, 0, 0]) dovetail_male(25);
+    // Walls
+    for (i = [0, 1]) {
+        width = 2;
+        height = 1.5 + 1;
+
+        mirror([i, 0, 0]) union() {
+            translate([(30 + 14) / 2 - width, -25, 0]) cube([width, 25, height]);
+            translate([(30 + 14) / 2 + 1 - width, 0, 0]) rotate([90, 0, 0]) {
+                difference() {
+                    dovetail_male(25);
+                    cube([5, height, 25]);
+                }
+            }
+        }
+    }
+    difference() {
+        // Just for reference for now
+        translate([(30 + 14) / -2, -25, -2]) cube([30 + 14, 25, 2]);
+
+        // Lock nub holes
+        for (i = [0, 1]) {
+            cylinder_h = (((30 + 14) / 2) - 1) / 2 - 2;
+
+            mirror([i, 0, 0]) {
+                translate([2 / 2, -2, 0.3]) rotate([90, 0, 90]) cylinder(h = cylinder_h, d = 1.7);
+                translate([(2 / 2) * 3 + cylinder_h, -2, 0.3]) rotate([90, 0, 90]) cylinder(h = cylinder_h, d = 1.7);
+            }
+        }
+    }
 }
-dovetail_male(10);
 
 module dovetail_female(length) {
     // Note: this is supposed to be a hole
