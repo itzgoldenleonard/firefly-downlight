@@ -1,8 +1,15 @@
 $fa = 1;
 $fs = $preview ? 1 : 0.15;
 
-dovetail_mount_bottom();
-//dovetail_mount_top();
+//dovetail_mount_bottom();
+dovetail_mount_top();
+
+/*
+dovetail_male(10);
+translate([0, 5, 0]) dovetail_female(10);
+translate([6, 0, 0]) dovetail(10, true);
+translate([6, 5, 0]) dovetail(10, false);
+*/
 
 // TODO: Clean up all of this code a bunch
 module dovetail_mount_top() {
@@ -96,7 +103,7 @@ module dovetail_female(length) {
 }
 
 module dovetail_male(length) {
-    head_height = 0.9;
+    head_height = 0.8;
     body_width = 2;
     body_height = 0.6;
     // Calculated variables
@@ -107,9 +114,35 @@ module dovetail_male(length) {
     polygon([
         [-body_width / 2, 0],
         [-body_width / 2, body_height],
-        [-head_width / 2, height],
-        [head_width / 2, height],
+        [-body_width / 2 - head_height + 0.05, height - 0.2], // Not so pretty but it works although it depends on head_width not changing
+        [-head_width / 2 + 0.2, height],
+        [head_width / 2 - 0.2, height],
+        [body_width / 2 + head_height - 0.05, height - 0.2],
         [body_width / 2, body_height],
         [body_width / 2, 0],
     ]);
+}
+
+module dovetail(length, male = false) {
+    // Makes a dovetail, female is default, male can be toggled on. The female one is meant to be used subtractively
+    //                   Male  Female
+    head_height = male ? 0.9 : 1  ;
+    body_width  = male ? 2   : 2.4;
+    body_height = male ? 0.6 : 0.5;
+    // Calculated variables
+    head_width = body_width + 2 * (head_height + 0.15);
+    height = head_height + body_height;
+
+    path = male ? [
+    ] : [
+        [body_width / 2, 0],
+        [body_width / 2, body_height],
+        [head_width / 2, height],
+        [-head_width / 2, height],
+        [-body_width / 2, body_height],
+        [-body_width / 2, 0],
+    ];
+
+    linear_extrude(length)
+    polygon(path);
 }
