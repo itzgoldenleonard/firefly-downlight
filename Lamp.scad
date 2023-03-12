@@ -1,8 +1,8 @@
 $fa = 1;
 $fs = $preview ? 1 : 0.15;
 
-//dovetail_mount_bottom();
-dovetail_mount_top();
+dovetail_mount_bottom();
+//dovetail_mount_top();
 
 // TODO: Clean up all of this code a bunch
 module dovetail_mount_top() {
@@ -98,7 +98,7 @@ module dovetail_female(length) {
 module dovetail_male(length) {
     head_height = 0.9;
     body_width = 2;
-    body_height = 0.8;
+    body_height = 0.6;
     // Calculated variables
     head_width = body_width + 2 * (head_height + 0.15);
     height = head_height + body_height;
