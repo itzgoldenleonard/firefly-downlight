@@ -2,20 +2,18 @@ $fa = 1;
 $fs = $preview ? 1 : 0.15;
 // Which part to make
 PART = "lamp"; // [ mount, lamp ]
+// TODO: Make this customizer affect the actual parts, not the mount
 
-//dovetail_mount_bottom();
-parts();
-// TODO: Rotate the dovetail itself
+mount();
 
-module parts() { // Wow that name sure could be improved
+module mount() {
     // This module is just a wrapper containing the shared variables between the two parts that I don't want to be global
     // Sheet
     sheet_width = 30;
-    sheet_length = 200;
     // General
     locking_nubs_position = 2;
     // Lamp
-    lamp_width = sheet_width + 14; // I still need to specify exactly where those 14mm come from
+    lamp_width = sheet_width + 14; // TODO: I still need to specify exactly where those 14mm come from
     lamp_wall_thickness = 2;
     // Mount
     mount_width = lamp_width + (-lamp_wall_thickness - 0.2) * 2;
@@ -23,7 +21,7 @@ module parts() { // Wow that name sure could be improved
     mount_thickness = 1 + 1.5; // The first 1mm is solid, the female dovetail is 1.5mm
 
     if (PART == "mount") {
-        single_mount(
+        mount_female(
             length = mount_length, 
             width = mount_width, 
             height = mount_thickness,
@@ -31,7 +29,7 @@ module parts() { // Wow that name sure could be improved
             lamp_width = lamp_width
         );
     } else { 
-        lamp_mount(
+        mount_male(
             length = mount_length,
             width = lamp_width,
             wall_thickness = lamp_wall_thickness,
@@ -41,7 +39,7 @@ module parts() { // Wow that name sure could be improved
     }
 }
 
-module lamp_mount(length, width, wall_thickness, mount_thickness, locking_nubs_position) {
+module mount_male(length, width, wall_thickness, mount_thickness, locking_nubs_position) {
     // Creates a single mounting piece which is part of the lamp, slides into the single_mount
     // Consists of a base cube with holes for the locking nubs cut into it. Then the dovetails are added. And the walls, which are just cubes with a half dovetail sticking out of their sides
     base_height = 2; // Doesn't include the height of the walls or the dovetails, also NOT FINAL
@@ -50,34 +48,31 @@ module lamp_mount(length, width, wall_thickness, mount_thickness, locking_nubs_p
         // Base cube
         translate([-width / 2, 0, -base_height]) cube([width, length, base_height]);
         // Locking nub holes
-        dovetails_distribution(width, 0.5, false) { // Here I set the ratio to 1/2 to get the nubs to be centered between the dovetails
-            dovetails_distribution(width, 1, false) { // We need 2 sets of nubs
-                dimension = 1.7;
-                translate([-dimension / 2, locking_nubs_position, 0.3]) 
-                rotate([90, 0, 90]) 
-                cylinder(h = dimension, d = dimension);
-            }
+        nub_distribution(width) {
+            dimension = 1.7;
+            translate([-dimension / 2, locking_nubs_position, 0.3]) 
+            rotate([90, 0, 90]) 
+            cylinder(h = dimension, d = dimension);
         }
     }
 
     // Dovetails
     dovetails_distribution(width) {
-        rotate([-90, 180, 0]) dovetail(length, true);
+        dovetail(length, true);
     }
     // Walls
     mirror_x() {
         translate([width / 2 - wall_thickness, 0, 0]) {
             cube([wall_thickness, length, mount_thickness]);
             male_dovetail_body_width = 2; // This is dependent on another variable but has to be changed manually if the other one is
-            translate([male_dovetail_body_width / 2, 0, 0]) rotate([-90, 180, 0]) dovetail(length, true, true);
+            translate([male_dovetail_body_width / 2, 0, 0]) dovetail(length, true, true);
         }
     }
 }
 
-module single_mount(length, width, height, locking_nubs_position, lamp_width) {
+module mount_female(length, width, height, locking_nubs_position, lamp_width) {
     // Creates a single mounting piece that can be taped to the surface where the lamp should be mounted. A lamp would typically use multiple of these
     // It starts with a base cube that gets 3 dovetails and some side slits cut into it, after that the additive features go on, that's a back stop and the locking nubs
-    dovetail_rotation = [-90, 180, 0];
     back_stop_thickness = 1;
 
     difference() {
@@ -85,22 +80,20 @@ module single_mount(length, width, height, locking_nubs_position, lamp_width) {
         translate([-width / 2, 0, 0]) cube([width, length, height]);
         // Dovetails
         dovetails_distribution(lamp_width) {
-            rotate(dovetail_rotation) dovetail(length);
+            dovetail(length);
         }
         // Side slits
         mirror_x() {
             female_dovetail_body_width = 2.4; // This is dependent on another variable but has to be changed manually if the other one is
             translate([(width + female_dovetail_body_width) / 2, 0, 0]) 
-            rotate(dovetail_rotation) dovetail(length);
+            dovetail(length);
         }
     }
     // Back stop
     translate([-width / 2, -back_stop_thickness, 0]) cube([width, back_stop_thickness, height]);
     // Nubs
-    dovetails_distribution(lamp_width, 0.5, false) { // Here I set the ratio to 1/2 to get the nubs to be centered between the dovetails
-        dovetails_distribution(lamp_width, 1, false) { // We need 2 sets of nubs
-            translate([0, locking_nubs_position, 0.4]) sphere(d = 1.5);
-        }
+    nub_distribution(lamp_width) {
+        translate([0, locking_nubs_position, 0.4]) sphere(d = 1.5);
     }
 }
 
@@ -113,6 +106,15 @@ module dovetails_distribution(lamp_width, ratio = 1, middle_child = true) {
     }
 }
 
+module nub_distribution(lamp_width) {
+    dovetails_distribution(lamp_width, 0.5, false) { // Here I set the ratio to 1/2 to get the nubs to be centered between the dovetails
+        dovetails_distribution(lamp_width, 1, false) { // We need 2 sets of nubs
+            children();
+        }
+    }
+}
+
+// TODO: Consider splitting this up into several files
 module dovetail(length, male = false, half = false) {
     // Makes the dovetail that connects the mount to the lamp itself
     // This module makes both the male and female dovetail since the only thing that really varies between them is the dimensions
@@ -134,6 +136,7 @@ module dovetail(length, male = false, half = false) {
         [0, height],
     ];
 
+    rotate([-90, 180, 0])
     linear_extrude(length)
     if (half) { polygon(concat(path, [[0, 0]])); }
     else { polygon(concat(path, reverse(flip_sign_x(path)))); }
