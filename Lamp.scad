@@ -1,10 +1,11 @@
 $fa = 1;
 $fs = $preview ? 1 : 0.15;
 // Which part to make
-PART = "mount"; // [ mount, lamp ]
+PART = "lamp"; // [ mount, lamp ]
 
 //dovetail_mount_bottom();
 parts();
+// TODO: Rotate the dovetail itself
 
 module parts() { // Wow that name sure could be improved
     // This module is just a wrapper containing the shared variables between the two parts that I don't want to be global
@@ -29,8 +30,47 @@ module parts() { // Wow that name sure could be improved
             locking_nubs_position = locking_nubs_position,
             lamp_width = lamp_width
         );
-    } else {
-        // NYI
+    } else { 
+        lamp_mount(
+            length = mount_length,
+            width = lamp_width,
+            wall_thickness = lamp_wall_thickness,
+            mount_thickness = mount_thickness,
+            locking_nubs_position = locking_nubs_position
+        ); 
+    }
+}
+
+module lamp_mount(length, width, wall_thickness, mount_thickness, locking_nubs_position) {
+    // Creates a single mounting piece which is part of the lamp, slides into the single_mount
+    // Consists of a base cube with holes for the locking nubs cut into it. Then the dovetails are added. And the walls, which are just cubes with a half dovetail sticking out of their sides
+    base_height = 2; // Doesn't include the height of the walls or the dovetails, also NOT FINAL
+
+    difference() {
+        // Base cube
+        translate([-width / 2, 0, -base_height]) cube([width, length, base_height]);
+        // Locking nub holes
+        dovetails_distribution(width, 0.5, false) { // Here I set the ratio to 1/2 to get the nubs to be centered between the dovetails
+            dovetails_distribution(width, 1, false) { // We need 2 sets of nubs
+                dimension = 1.7;
+                translate([-dimension / 2, locking_nubs_position, 0.3]) 
+                rotate([90, 0, 90]) 
+                cylinder(h = dimension, d = dimension);
+            }
+        }
+    }
+
+    // Dovetails
+    dovetails_distribution(width) {
+        rotate([-90, 180, 0]) dovetail(length, true);
+    }
+    // Walls
+    mirror_x() {
+        translate([width / 2 - wall_thickness, 0, 0]) {
+            cube([wall_thickness, length, mount_thickness]);
+            male_dovetail_body_width = 2; // This is dependent on another variable but has to be changed manually if the other one is
+            translate([male_dovetail_body_width / 2, 0, 0]) rotate([-90, 180, 0]) dovetail(length, true, true);
+        }
     }
 }
 
@@ -73,45 +113,7 @@ module dovetails_distribution(lamp_width, ratio = 1, middle_child = true) {
     }
 }
 
-// TODO: Clean up this module a bunch
-module dovetail_mount_bottom() {
-    rotate([90, 0, 0]) dovetail(25, true);
-    // Middle dovetails
-    mirror_x() {
-        translate([(((30 + 14) / 2) - 1) / 2, 0, 0]) rotate([90, 0, 0]) dovetail(25, true);
-    }
-    // Walls
-    for (i = [0, 1]) {
-        width = 2;
-        height = 1.5 + 1;
-
-        mirror([i, 0, 0]) union() {
-            translate([(30 + 14) / 2 - width, -25, 0]) cube([width, 25, height]);
-            translate([(30 + 14) / 2 + 1 - width, 0, 0]) rotate([90, 0, 0]) {
-                difference() {
-                    dovetail(25, true);
-                    cube([5, height, 25]);
-                }
-            }
-        }
-    }
-    difference() {
-        // Just for reference for now
-        translate([(30 + 14) / -2, -25, -2]) cube([30 + 14, 25, 2]);
-
-        // Lock nub holes
-        for (i = [0, 1]) {
-            cylinder_h = (((30 + 14) / 2) - 1) / 2 - 2;
-
-            mirror([i, 0, 0]) {
-                translate([2 / 2, -2, 0.3]) rotate([90, 0, 90]) cylinder(h = cylinder_h, d = 1.7);
-                translate([(2 / 2) * 3 + cylinder_h, -2, 0.3]) rotate([90, 0, 90]) cylinder(h = cylinder_h, d = 1.7);
-            }
-        }
-    }
-}
-
-module dovetail(length, male = false) {
+module dovetail(length, male = false, half = false) {
     // Makes the dovetail that connects the mount to the lamp itself
     // This module makes both the male and female dovetail since the only thing that really varies between them is the dimensions
     // The whole part is just a 2d polygon that's linearly extruded to the given length
@@ -129,10 +131,12 @@ module dovetail(length, male = false) {
         [body_width / 2, body_height],
         male ? [head_width / 2, height - 0.2] : [head_width / 2, height], // I can't tell it to skip for the female, so I'm just placing a point on top of the next one
         [head_width / 2, height],
+        [0, height],
     ];
 
     linear_extrude(length)
-    polygon(concat(path, reverse(flip_sign_x(path))));
+    if (half) { polygon(concat(path, [[0, 0]])); }
+    else { polygon(concat(path, reverse(flip_sign_x(path)))); }
     // I reverse the sign of the x coordinates of all the points in the `path` vector and put them in the right order with the reverse function to do the mirroring. Like the native mirror function it doesnt create a copy, so I need to concat the mirrored point vector with the original.
 }
 
