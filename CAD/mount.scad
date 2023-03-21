@@ -1,33 +1,6 @@
 use <utility.scad>
-include <dovetail.scad>
-
-// These variables have to be in another file
-// Sheet
-sheet_width = 30;
-// Lamp
-lamp_width = sheet_width + 14; // TODO: I still need to specify exactly where those 14mm come from
-
-general = [
-    [ "length", 25 ],
-    [ "locking_nubs_position", 2 ],
-];
-
-male = [
-    [ "wall_thickness", 2 ],
-    [ "base_height", 2 ],
-];
-
-female = [
-    [ "width", lamp_width + (-get(male, "wall_thickness") - 0.2) * 2],
-    [ "height", 1 + get(get(Ddovetail, "female"), "head_height") + get(get(Ddovetail, "female"), "body_height")],
-    [ "back_stop_thickness", 1 ],
-];
-
-Dmount = [
-    [ "general", general],
-    [ "male", male],
-    [ "female", female],
-];
+use <dovetail.scad>
+include <dimensions.scad>
 
 module mount_male() {
     // Creates a single mounting piece which is part of the lamp, slides into the single_mount
@@ -37,7 +10,7 @@ module mount_male() {
 
     difference() {
         // Base cube
-        translate([-lamp_width / 2, 0, -get(D, "base_height")]) cube([lamp_width, get(Dgen, "length"), get(D, "base_height")]);
+        translate([-get(Dlamp, "width") / 2, 0, -get(D, "base_height")]) cube([get(Dlamp, "width"), get(Dgen, "length"), get(D, "base_height")]);
         // Locking nub holes
         nub_distribution() {
             dimension = 1.7;
@@ -53,7 +26,7 @@ module mount_male() {
     }
     // Walls
     mirror_x() {
-        translate([lamp_width / 2 - get(D, "wall_thickness"), 0, 0]) {
+        translate([get(Dlamp, "width") / 2 - get(D, "wall_thickness"), 0, 0]) {
             cube([get(D, "wall_thickness"), get(Dgen, "length"), get(get(Dmount, "female"), "height")]);
             translate([get(get(Ddovetail, "male"), "body_width") / 2, 0, 0]) dovetail(get(Dgen, "length"), true, true);
         }
@@ -83,7 +56,7 @@ module mount_female() {
     translate([-get(D, "width") / 2, -get(D, "back_stop_thickness"), 0]) cube([get(D, "width"), get(D, "back_stop_thickness"), get(D, "height")]);
     // Nubs
     nub_distribution() {
-        translate([0, get(Dgen, "locking_nubs_position"), 0.4]) sphere(d = 1.5);
+        translate([0, get(Dgen, "locking_nubs_position"), 0.4]) sphere(d = 1.5); // TODO: Parameterize the nubs
     }
 }
 
@@ -91,7 +64,7 @@ module dovetails_distribution(ratio = 1, middle_child = true) {
     // Makes 3 copies of the object passed to it in the pattern that the dovetails need to be in in the mount and consequently, on the lamp
     if (middle_child) children();
     mirror_x() {
-        translate([(lamp_width / 2 - 1) / 2 * ratio, 0, 0]) // I don't know where -1 comes from
+        translate([(get(Dlamp, "width") / 2 - 1) / 2 * ratio, 0, 0]) // I don't know where -1 comes from
         children();
     }
 }

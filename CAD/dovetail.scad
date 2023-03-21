@@ -1,21 +1,5 @@
 use <utility.scad>
-
-Ddovetail = [
-    [ "male",
-        [
-            [ "head_height", 0.8 ],
-            [ "body_width" , 2   ],
-            [ "body_height", 0.6 ],
-        ]
-    ],
-    [ "female",
-        [
-            [ "head_height", 1   ],
-            [ "body_width" , 2.4 ],
-            [ "body_height", 0.5 ],
-        ]
-    ],
-];
+include <dimensions.scad>
 
 module dovetail(length, male = false, half = false) {
     // Makes the dovetail that connects the mount to the lamp itself
