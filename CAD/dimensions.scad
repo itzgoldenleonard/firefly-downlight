@@ -23,6 +23,7 @@ Dsheet = [
 
 Dlamp = [
     [ "width", get(Dsheet, "width") + 14 ], // TODO: I still need to specify exactly where those 14mm come from
+    [ "stoppers_thickness", 1.5 ],
 ];
 
 // Mount
@@ -33,7 +34,7 @@ mount_general = [
 
 mount_male = [
     [ "wall_thickness", 2 ],
-    [ "base_height", 2 ],
+    [ "base_height", 3 ], // This should probably be moved over to lamp
 ];
 
 mount_female = [
