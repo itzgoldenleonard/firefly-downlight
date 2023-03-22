@@ -1,6 +1,7 @@
 use <utility.scad>
 use <mount.scad>
 use <dovetail.scad>
+use <lib/honeycomb.scad>
 include <dimensions.scad>
 
 
@@ -10,27 +11,32 @@ module lamp() {
 
     difference() {
         union() {
-            // Base cube
-            translate([-get(D, "width") / 2, 0, -get(mount_male, "base_height")]) cube([get(D, "width"), get(Dsheet, "length"), get(mount_male, "base_height")]); // I need to preserve the nub holes, Also this needs to be honeycombed
             // Mounts
             translate([0, get(get(Dmount, "general"), "length") + 2, 0]) mount_male();
-            translate([0, 100, 0]) mount_male(); // put it in between those two
+            translate([0, 100, 0]) mount_male(); // TODO: offset it to the correct amount
             translate([0, get(Dsheet, "length") - get(get(Dmount, "general"), "length"), 0]) mount_male();
 
-            // Stoppers
-            translate([-get(D, "width") / 2, -get(D, "stoppers_thickness"), -5.5 + get(get(Dmount, "female"), "height")]) cube([get(D, "width"), get(D, "stoppers_thickness"), 5.5]);
-            translate([-get(D, "width") / 2, get(Dsheet, "length"), -5.5 + get(get(Dmount, "female"), "height")]) cube([get(D, "width"), get(D, "stoppers_thickness"), 5.5]);
+            // Stoppers and walls, TODO: make it a little less jank
+            translate([-get(D, "width") / 2, 0, 0]) { // Centering on X
 
-            // Walls
-            mirror_x() {
-                translate([get(Dlamp, "width") / 2 - get(get(Dmount, "male"), "wall_thickness"), 0, 0]) 
-                cube([get(get(Dmount, "male"), "wall_thickness"), get(Dsheet, "length"), get(get(Dmount, "female"), "height")]);
+                // Base honeycomb cube
+                mirror([0, 0, 1])
+                linear_extrude(height = 1) // TODO: The sheet offset
+                honeycomb(get(D, "width"), get(Dsheet, "length"), 4.5, 0.8); // TODO: figure out these values, don't need to be parameterized though
+
+                difference() {
+                    translate([0, -get(D, "stoppers_thickness"), -get(mount_male, "base_height")])
+                    cube([get(D, "width"), get(Dsheet, "length") + 2 * get(D, "stoppers_thickness"), get(mount_male, "base_height") + get(get(Dmount, "female"), "height")]);
+
+                    translate([get(get(Dmount, "male"), "wall_thickness"), 0, -1]) // TODO: This 1 mm is the sheet offset, it needs to be parameterized
+                    cube([get(D, "width") - get(get(Dmount, "male"), "wall_thickness") * 2, get(Dsheet, "length"), 1 + get(get(Dmount, "female"), "height")]);
+                }
             }
         }
         // Sheet cutout
-        sheet_offset = 1; // Bad name, needs to go in the actual dimensions, not final
-        sheet_lip = 0; // Same as the line above
-        translate([-get(Dsheet, "width") / 2, -1.5, - sheet_offset - get(Dsheet, "thickness")]) 
+        sheet_offset = 1; // TODO: make a better name, TODO: parameterize properly, TODO: check the value again
+        sheet_lip = 3; // TODO: make a better name, TODO: parameterize properly, TODO: check the value again
+        translate([-get(Dsheet, "width") / 2, 0, - sheet_offset - get(Dsheet, "thickness")]) 
         cube([get(Dsheet, "width"), get(Dsheet, "length"), get(Dsheet, "thickness")]);
         translate([-get(Dsheet, "width") / 2 + sheet_lip, 0, - sheet_offset - get(Dsheet, "thickness")]) 
         mirror([0, 0, 1])
@@ -38,7 +44,7 @@ module lamp() {
 
         // Dovetails for diffuser
         mirror_x() {
-            translate([19, -get(D, "stoppers_thickness"), -get(mount_male, "base_height")]) // Needs to be centered in it's face
+            translate([19, -get(D, "stoppers_thickness"), -get(mount_male, "base_height")]) // TODO: Needs to be centered in it's face
             dovetail(get(Dsheet, "length") + get(D, "stoppers_thickness"), false, true);
         }
     }

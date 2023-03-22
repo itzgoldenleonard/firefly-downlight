@@ -34,7 +34,7 @@ mount_general = [
 
 mount_male = [
     [ "wall_thickness", 2 ],
-    [ "base_height", 3 ], // This should probably be moved over to lamp
+    [ "base_height", 3 ], // TODO: This should probably be moved over to lamp
 ];
 
 mount_female = [
