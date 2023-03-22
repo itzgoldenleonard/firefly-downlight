@@ -29,8 +29,8 @@ module lamp() {
         }
         // Sheet cutout
         sheet_offset = 1; // Bad name, needs to go in the actual dimensions, not final
-        sheet_lip = 3.5; // Same as the line above
-        translate([-get(Dsheet, "width") / 2, 0, - sheet_offset - get(Dsheet, "thickness")]) 
+        sheet_lip = 0; // Same as the line above
+        translate([-get(Dsheet, "width") / 2, -1.5, - sheet_offset - get(Dsheet, "thickness")]) 
         cube([get(Dsheet, "width"), get(Dsheet, "length"), get(Dsheet, "thickness")]);
         translate([-get(Dsheet, "width") / 2 + sheet_lip, 0, - sheet_offset - get(Dsheet, "thickness")]) 
         mirror([0, 0, 1])
@@ -38,7 +38,7 @@ module lamp() {
 
         // Dovetails for diffuser
         mirror_x() {
-            translate([19.5, -get(D, "stoppers_thickness"), -get(mount_male, "base_height")]) // Needs to be centered in it's face
+            translate([19, -get(D, "stoppers_thickness"), -get(mount_male, "base_height")]) // Needs to be centered in it's face
             dovetail(get(Dsheet, "length") + get(D, "stoppers_thickness"), false, true);
         }
     }

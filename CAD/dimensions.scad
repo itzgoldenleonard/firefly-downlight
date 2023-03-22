@@ -22,7 +22,7 @@ Dsheet = [
 ];
 
 Dlamp = [
-    [ "width", get(Dsheet, "width") + 14 ], // TODO: I still need to specify exactly where those 14mm come from
+    [ "width", get(Dsheet, "width") + 1 * 4 + 5 ], // 1mm on each side of the half dovetails + the approximate width of a dovetail
     [ "stoppers_thickness", 1.5 ],
 ];
 
