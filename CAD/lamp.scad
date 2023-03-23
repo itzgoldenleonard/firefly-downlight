@@ -12,24 +12,26 @@ module lamp() {
     difference() {
         union() {
             // Mounts
-            for (i = [
+            mounts_pos = [
                 get(get(Dmount, "general"), "length") + 2,
                 get(Dsheet, "length") / 2,
                 get(Dsheet, "length") - get(get(Dmount, "general"), "length"),
-            ]) {
-                translate([0, i, 0])
-                mount_male();
+            ];
+
+            for (i = [0:len(mounts_pos) - 1]) {
+                translate([0, mounts_pos[i], 0]) {
+                    mount_male();
+
+                    // Base honeycomb cube
+                    mirror([0, 1, 0])
+                    translate([-get(D, "width") / 2, 0, -get(Dsheet, "offset")])
+                    linear_extrude(height = get(Dsheet, "offset"))
+                    honeycomb(get(D, "width"), i == 0 ? mounts_pos[i] : (-mounts_pos[i - 1] + mounts_pos[i] - get(get(Dmount, "general"), "length")), 4.6, 0.8);
+                }
             }
 
             // Stoppers and walls, TODO: make it a little less jank
             translate([-get(D, "width") / 2, 0, 0]) { // Centering on X
-
-                // Base honeycomb cube
-                mirror([0, 0, 1])
-                linear_extrude(height = get(Dsheet, "offset"))
-                // TODO: Make this not intersect the locking nub holes
-                honeycomb(get(D, "width"), get(Dsheet, "length"), 4.6, 0.8);
-
                 difference() {
                     translate([0, -get(D, "stoppers_thickness"), -get(D, "base_height")])
                     cube([get(D, "width"), get(Dsheet, "length") + 2 * get(D, "stoppers_thickness"), get(D, "base_height") + get(get(Dmount, "female"), "height")]);
