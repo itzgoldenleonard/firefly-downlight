@@ -10,7 +10,7 @@ module mount_male() {
 
     difference() {
         // Base cube
-        translate([-get(Dlamp, "width") / 2, 0, -get(D, "base_height")]) cube([get(Dlamp, "width"), get(Dgen, "length"), get(D, "base_height")]);
+        translate([-get(Dlamp, "width") / 2, 0, -get(Dlamp, "base_height")]) cube([get(Dlamp, "width"), get(Dgen, "length"), get(Dlamp, "base_height")]);
         // Locking nub holes
         nub_distribution() {
             dimension = 1.7;

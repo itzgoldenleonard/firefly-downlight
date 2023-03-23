@@ -16,13 +16,17 @@ Ddovetail = [
 ];
 
 Dsheet = [
-    [ "width", 30 ],
+    [ "width", 30 ], // 10mm for each LED strip, 4mm of space between them, 3mm on each side for the lips
     [ "length", 200 ],
     [ "thickness", 1 ],
+    [ "offset", 1 ], // This is the thickness of material above the sheet
+    [ "lip_width", 3], // Per lip
+    [ "lip_thickness", 1],
 ];
 
 Dlamp = [
     [ "width", get(Dsheet, "width") + 1 * 4 + 5 ], // 1mm on each side of the half dovetails + the approximate width of a dovetail
+    [ "base_height", get(Dsheet, "offset") + get(Dsheet, "thickness") + get(Dsheet, "lip_thickness") ],
     [ "stoppers_thickness", 1.5 ],
 ];
 
@@ -34,7 +38,6 @@ mount_general = [
 
 mount_male = [
     [ "wall_thickness", 2 ],
-    [ "base_height", 3 ], // TODO: This should probably be moved over to lamp
 ];
 
 mount_female = [
