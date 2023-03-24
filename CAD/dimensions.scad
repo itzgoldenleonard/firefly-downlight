@@ -52,3 +52,9 @@ Dmount = [
     [ "female", mount_female],
 ];
 
+mounts_pos = [
+    get(get(Dmount, "general"), "length") + 2,
+    get(Dsheet, "length") / 2,
+    get(Dsheet, "length") - get(get(Dmount, "general"), "length"),
+];
+
