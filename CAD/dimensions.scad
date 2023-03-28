@@ -60,7 +60,7 @@ mounts_pos = [
 ];
 
 Ddiffuser = [
-    [ "height", 25 ],
+    [ "height", 20 ],
     [ "corner_radius", 5 ],
     [ "thickness", 1 ],
     [ "dovetail_offset", 1 ],

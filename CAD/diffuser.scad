@@ -7,13 +7,13 @@ module diffuser() {
 
     mirror_x() { 
         // Main diffuser
-        linear_extrude(20) diffuser2d(); 
+        linear_extrude(30) diffuser2d(); 
 
         // Dovetails
         translate([get(Dlamp, "width") / 2 - get(D, "dovetail_offset"), get(D, "height"), 0]) 
         mirror([1, 0, 0]) 
         rotate([90, 0, 180]) 
-        dovetail(20, true, true);
+        dovetail(30, true, true);
 
     }
     // End caps
