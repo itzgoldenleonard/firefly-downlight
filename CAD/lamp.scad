@@ -14,10 +14,10 @@ module lamp() {
         // Dovetails for diffuser
         mirror_x() {
             translate([
-                get(D, "width") / 2 - 1,         // 1mm from the side of the lamp
-                -get(D, "stoppers_thickness"),   // It needs to go though the stopper on 1 side so that you can actually slide in the diffuser
-                -get(D, "base_height")           // It needs to start at the very bottom of the lamp (on the z axis)
-            ]) // TODO: I probably wanna use that 1mm in the diffuser later
+                get(D, "width") / 2 - get(Ddiffuser, "dovetail_offset"),  // 1mm from the side of the lamp
+                -get(D, "stoppers_thickness"),                            // It needs to go though the stopper on 1 side so that you can actually slide in the diffuser
+                -get(D, "base_height")                                    // It needs to start at the very bottom of the lamp (on the z axis)
+            ])
             dovetail(
                 get(Dsheet, "length") + get(D, "stoppers_thickness"), // Compensate for going through that stopper earlier
                 false,                                                // Female

@@ -59,3 +59,9 @@ mounts_pos = [
     get(Dsheet, "length") - get(get(Dmount, "general"), "length"),
 ];
 
+Ddiffuser = [
+    [ "height", 25 ],
+    [ "corner_radius", 5 ],
+    [ "thickness", 1 ],
+    [ "dovetail_offset", 1 ],
+];
