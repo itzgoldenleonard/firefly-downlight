@@ -21,7 +21,7 @@ Dsheet = [
     [ "thickness", 1 ],
     [ "offset", 1 ], // This is the thickness of material above the sheet
     [ "lip_width", 3], // Per lip
-    [ "lip_thickness", 1],
+    [ "lip_thickness", 2],
 ];
 
 Dlamp = [
@@ -38,6 +38,7 @@ mount_general = [
 
 mount_male = [
     [ "wall_thickness", 2 ],
+    [ "tape_thickness", 0.4], // Extra wall height
 ];
 
 mount_female = [

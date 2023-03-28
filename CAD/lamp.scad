@@ -48,7 +48,7 @@ module lamp_body() {
         cube([
             get(D, "width"), 
             get(Dsheet, "length") + 2 * get(D, "stoppers_thickness"),    // The lamp is the same length as the sheet + the 2 stoppers that keep in the sheet
-            get(D, "base_height") + get(get(Dmount, "female"), "height") // The base is below the XY plane and above it needs to fit into the female mount
+            get(D, "base_height") + get(get(Dmount, "female"), "height") + get(get(Dmount, "male"), "tape_thickness") // The base is below the XY plane and above it needs to fit into the female mount
         ]);
 
         // Hole for the mounts
@@ -60,7 +60,7 @@ module lamp_body() {
         cube([
             inner_width, 
             get(Dsheet, "length"), 
-            get(Dsheet, "offset") + get(get(Dmount, "female"), "height")
+            get(Dsheet, "offset") + get(get(Dmount, "female"), "height") + get(get(Dmount, "male"), "tape_thickness")
         ]);
     }
 
