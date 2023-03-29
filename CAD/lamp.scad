@@ -11,18 +11,33 @@ module lamp() {
     difference() {
         lamp_body();
         sheet_cutout();
+
         // Dovetails for diffuser
         mirror_x() {
             translate([
                 get(D, "width") / 2 - get(Ddiffuser, "dovetail_offset"),  // 1mm from the side of the lamp
                 -get(D, "stoppers_thickness"),                            // It needs to go though the stopper on 1 side so that you can actually slide in the diffuser
                 -get(D, "base_height")                                    // It needs to start at the very bottom of the lamp (on the z axis)
-            ])
-            dovetail(
-                get(Dsheet, "length") + get(D, "stoppers_thickness"), // Compensate for going through that stopper earlier
-                false,                                                // Female
-                true                                                  // Half dovetail to save space
-            );
+            ]) {
+                dovetail(
+                    get(Dsheet, "length") + get(D, "stoppers_thickness"), // Compensate for going through that stopper earlier
+                    false,                                                // Female
+                    true                                                  // Half dovetail to save space
+                );
+
+                // Thing that makes it print properly
+                dovetail_width = get(get(Ddovetail, "female"), "body_width") / 2 + get(get(Ddovetail, "female"), "head_height") + 0.15;
+                translate([0, 0, get(get(Ddovetail, "female"), "body_height") + get(get(Ddovetail, "female"), "head_height")])
+                rotate([90, 0, 180])
+                linear_extrude(get(Dsheet, "length") + get(D, "stoppers_thickness"))
+                polygon([
+                    [0, 0],
+                    [0, 0.3],
+                    [dovetail_width / 2, 0.6],
+                    [dovetail_width, 0.3],
+                    [dovetail_width, 0],
+                ]);
+            }
         }
     }
 }
