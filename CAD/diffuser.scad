@@ -2,22 +2,30 @@ use <utility.scad>
 use <dovetail.scad>
 include <dimensions.scad>
 
+/* TODO:
+ * [ ] Test that it prints properly
+ * [ ] Clean up code a bit
+ */
+
 module diffuser() {
     D = Ddiffuser;
 
     mirror_x() { 
         // Main diffuser
-        linear_extrude(30) diffuser2d(); 
+        linear_extrude(get(Dsheet, "length")) diffuser2d(); 
 
         // Dovetails
         translate([get(Dlamp, "width") / 2 - get(D, "dovetail_offset"), get(D, "height"), 0]) 
         mirror([1, 0, 0]) 
         rotate([90, 0, 180]) 
-        dovetail(30, true, true);
+        dovetail(get(Dsheet, "length") + get(Dlamp, "stoppers_thickness"), true, true);
 
     }
     // End caps
     translate([0, 0, -get(Dlamp, "stoppers_thickness")]) hull() mirror_x() linear_extrude(get(Dlamp, "stoppers_thickness")) {
+        diffuser2d();
+    }
+    translate([0, 0, get(Dsheet, "length")]) hull() mirror_x() linear_extrude(get(Dlamp, "stoppers_thickness")) {
         diffuser2d();
     }
 }
