@@ -2,12 +2,9 @@ use <utility.scad>
 use <dovetail.scad>
 include <dimensions.scad>
 
-/* TODO:
- * [ ] Test that it prints properly
- * [ ] Clean up code a bit
- */
-
 module diffuser() {
+    // This is the diffuser that slides onto the lamp. 
+    // It consists of an extruded 2d shape, some dovetails and 2 end caps, which are hulls of the 2d shapes.
     D = Ddiffuser;
 
     mirror_x() { 
@@ -22,39 +19,56 @@ module diffuser() {
 
     }
     // End caps
-    translate([0, 0, -get(Dlamp, "stoppers_thickness")]) hull() mirror_x() linear_extrude(get(Dlamp, "stoppers_thickness")) {
-        diffuser2d();
-    }
-    translate([0, 0, get(Dsheet, "length")]) hull() mirror_x() linear_extrude(get(Dlamp, "stoppers_thickness")) {
-        diffuser2d();
+    for (i = [
+        -get(Dlamp, "stoppers_thickness"),
+        get(Dsheet, "length"),
+    ]) {
+        translate([0, 0, i]) 
+        hull() 
+        mirror_x() 
+        linear_extrude(get(Dlamp, "stoppers_thickness")) {
+            diffuser2d();
+        }
     }
 }
 
 module diffuser2d() {
+    // This is a 2D projection of the main body of the diffuser. But without the dovetails, because those are 3D.
     D = Ddiffuser;
+    width = get(Dlamp, "width") / 2;
 
     // Bottom straight line
-    square([get(Dlamp, "width") / 2 - get(D, "corner_radius"), get(D, "thickness")]);
+    square([
+        width - get(D, "corner_radius"), 
+        get(D, "thickness")
+    ]);
+
     // Side straight line
-    translate([get(Dlamp, "width") / 2 - get(D, "thickness"), get(D, "corner_radius"), 0]) square([get(D, "thickness"), get(D, "height") - get(D, "corner_radius")]);
+    translate([
+        width - get(D, "thickness"), 
+        get(D, "corner_radius"), 
+    0]) 
+    square([
+        get(D, "thickness"), 
+        get(D, "height") - get(D, "corner_radius")
+    ]);
+
     // Support for dovetails
     polygon([
-        [get(Dlamp, "width") / 2 - get(D, "thickness"), get(D, "height")],
-        [get(Dlamp, "width") / 2 - get(D, "thickness") - get(get(Ddovetail, "male"), "body_width") / 2, get(D, "height")],
-        [get(Dlamp, "width") / 2 - get(D, "thickness"), get(D, "height") - get(get(Ddovetail, "male"), "body_width")],
+        [width - get(D, "thickness"), get(D, "height")],
+        [width - get(D, "thickness") - get(get(Ddovetail, "male"), "body_width") / 2, get(D, "height")],
+        [width - get(D, "thickness"), get(D, "height") - get(get(Ddovetail, "male"), "body_width")],
     ]);
 
     // Rounded corners
-    difference() {
-        translate([get(Dlamp, "width") / 2 - get(D, "corner_radius"), get(D, "corner_radius"), 0]) circle(get(D, "corner_radius"));
-        translate([get(Dlamp, "width") / 2 - get(D, "corner_radius"), get(D, "corner_radius"), 0]) circle(get(D, "corner_radius") - get(D, "thickness"));
+    intersection() {
+        translate([width, 0, 0])
+        mirror([1, 0, 0])
+        square(get(D, "corner_radius"));
 
-        polygon([
-            [0, get(D, "thickness")],
-            [get(Dlamp, "width") / 2 - get(D, "corner_radius"), get(D, "thickness")],
-            [get(Dlamp, "width") / 2 - get(D, "thickness"), get(D, "corner_radius")],
-            [get(Dlamp, "width") / 2 - get(D, "thickness"), get(D, "height")],
-            [0, get(D, "height")],
-        ]);
+        difference() {
+            translate([width - get(D, "corner_radius"), get(D, "corner_radius"), 0]) circle(get(D, "corner_radius"));
+            translate([width - get(D, "corner_radius"), get(D, "corner_radius"), 0]) circle(get(D, "corner_radius") - get(D, "thickness"));
+        }
     }
 }
