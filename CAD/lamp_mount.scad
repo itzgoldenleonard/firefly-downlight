@@ -11,14 +11,29 @@ module lamp_mount() {
     // Mounts
     for (i = mounts_pos) { translate([0, i, 0]) mount_female(); }
     // Base
-    translate([
-        -get(D, "width") / 2,   // Center on X
-        mounts_pos[0],          // Start at the beginning of the first mount
-        dovetail_height         // Attached above the dovetails
-    ])
-    cube([
-        get(D, "width"), 
-        mounts_pos[len(mounts_pos) - 1] - mounts_pos[0],  // The position of the last mount in the list - the offset of the base itself
-        get(D, "height") - dovetail_height
-    ]);
+    difference() {
+        translate([
+            -get(D, "width") / 2,   // Center on X
+            mounts_pos[0],          // Start at the beginning of the first mount
+            dovetail_height         // Attached above the dovetails
+        ])
+        cube([
+            get(D, "width"), 
+            mounts_pos[len(mounts_pos) - 1] - mounts_pos[0],  // The position of the last mount in the list - the offset of the base itself
+            get(D, "height") - dovetail_height
+        ]);
+
+
+        // Hole for wires
+        translate([
+            -2.75,
+            76,
+            dovetail_height                      // It needs to be inside the base
+        ])
+        cube([
+            5.5,
+            55,   // These numbers come from measurements, adjust them to your own mounting solution
+            get(D, "height") - dovetail_height   // And the same height
+        ]);
+    }
 }
