@@ -38,7 +38,7 @@ mount_general = [
 
 mount_male = [
     [ "wall_thickness", 2 ],
-    [ "tape_thickness", 0.4], // Extra wall height
+    [ "tape_thickness", 1 ], // Extra wall height
 ];
 
 mount_female = [
