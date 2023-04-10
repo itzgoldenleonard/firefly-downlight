@@ -21491,7 +21491,6 @@ M107
 ;HEIGHT:0.15
 G1 Z3.1 F7200
 ;PAUSE_PRINT
-M117 Place bearings in slots and resume printing
 G197
 G1 X228.251 Y87.045
 ;TYPE:Perimeter
