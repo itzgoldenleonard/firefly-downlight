@@ -10,7 +10,7 @@ In the [`CAD`](./CAD) folder you'll find all of the OpenSCAD source files for th
 
 The [`Final`](./Final) folder contains the output files of the final design. That means each model has an STL 3d object file, a 3mf PrusaSlicer project file and a sliced gcode file for use with the craftbot+ 3d printer (if you have a different printer you'll need to re-slice it yourself)
 
-Finally [`Test prints`](./Test prints) can mostly be ignored, it just contains tests that I used during the design process. If you're unsure that your printer's settings are correct they might be useful to test that everything fits together before printing the final parts, each test print has a markdown file associated with it explaining exactly what it contains.
+Finally [`Test prints`](./Test%20prints) can mostly be ignored, it just contains tests that I used during the design process. If you're unsure that your printer's settings are correct they might be useful to test that everything fits together before printing the final parts, each test print has a markdown file associated with it explaining exactly what it contains.
 
 ## Contributing
 

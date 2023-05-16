@@ -1,22 +1,4 @@
-# Problems with previous design
-
-## Durability
-- Base gets bendy
-- Base becomes crunchy
-- LED strips have peeled off the base
-- Some of the LEDs have gone out
-
-## Repairability
-- The diffuser is hard to get off
-- The base is hard to get off
-- Cables aren't easy to unplug
-
-## Visual
-- Cable management has gone loose over time
-- Color is inconsistent (probably the diffusers fault)
-
-
-# Design requirements for v2
+# Design requirements for the firefly downlights
 
 LED strip kitchen lamps
 
@@ -37,3 +19,21 @@ LED strip kitchen lamps
     - [ ] Soft light
     - [ ] No light spots on the visible surface
     - [ ] Consistent color
+
+
+# Problems with previous design
+
+## Durability
+- Base gets bendy
+- Base becomes crunchy
+- LED strips have peeled off the base
+- Some of the LEDs have gone out
+
+## Repairability
+- The diffuser is hard to get off
+- The base is hard to get off
+- Cables aren't easy to unplug
+
+## Visual
+- Cable management has gone loose over time
+- Color is inconsistent (probably the diffusers fault)
