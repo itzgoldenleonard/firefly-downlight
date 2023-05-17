@@ -9,6 +9,9 @@
    id="svg5"
    inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
    sodipodi:docname="wiring.svg"
+   inkscape:export-filename="wiring.png"
+   inkscape:export-xdpi="450"
+   inkscape:export-ydpi="450"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -30,15 +33,15 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      showgrid="false"
-     inkscape:zoom="2.1484375"
-     inkscape:cx="250.64727"
-     inkscape:cy="115.2"
+     inkscape:zoom="68.75"
+     inkscape:cx="343.6"
+     inkscape:cy="43.323636"
      inkscape:window-width="1707"
      inkscape:window-height="994"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer2" />
+     inkscape:current-layer="layer3" />
   <defs
      id="defs2">
     <linearGradient
@@ -2040,13 +2043,13 @@
        inkscape:label="Negative main power" />
     <path
        style="fill:none;fill-opacity:1;stroke:#181818;stroke-width:15;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 1089.3435,245.06275 c 0,0 -34.8133,0.49689 -35.3102,0 -0.4969,-0.49689 0,-139.46212 0,-139.65942 0,-0.1973 36.3642,0 36.3642,0"
+       d="m 1089.3435,245.06275 c 0,0 -34.8133,0.49689 -35.3102,0 -0.4969,-0.49689 -0.312,-138.8667 0,-139.65942 0.312,-0.79272 36.3642,0 36.3642,0"
        id="path21257"
        sodipodi:nodetypes="cszc"
        inkscape:label="Negative connecting" />
     <path
        style="fill:none;fill-opacity:1;stroke:#ff4535;stroke-width:15;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 1109.4778,295.05917 c 0,0 34.8133,0.49689 35.3102,0 0.4969,-0.49689 0,-139.46212 0,-139.65942 0,-0.1973 -36.3642,0 -36.3642,0"
+       d="m 1109.4778,295.05917 c 0,0 34.8133,0.49689 35.3102,0 0.4969,-0.49689 0.1319,-139.16705 0,-139.65942 -0.1319,-0.49237 -36.3642,0 -36.3642,0"
        id="path21257-0"
        sodipodi:nodetypes="cszc"
        inkscape:label="Positive connecting" />

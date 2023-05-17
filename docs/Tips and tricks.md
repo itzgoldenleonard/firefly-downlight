@@ -42,7 +42,7 @@ There's 14mm between the pads on the 2 LED strips. Prepare and pre bend the wire
 
 You have to be quite precise because the height clearance is super tight. No criss crossing cables allowed or the diffuser wont fit. Here's a psuedo wiring diagram showing how I connected everything up:
 
-![Wiring diagram](./images/wiring.svg)
+![Wiring diagram](./images/wiring.png)
 
 
 # Attaching connectors
