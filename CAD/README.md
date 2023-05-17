@@ -33,4 +33,4 @@ It also has some cutouts that the *diffuser* can slide into. These are actually 
 
 ## 5. The diffuser
 
-The *diffuser* whose code is in `diffuser.scad` is the easiest part. It's pretty much just a singleextruded 2d sketch with some *half dovetails* from `dovetail.scad` on the tips. It slides into the matching half dovetails on the *lamp* with only a single visible seam.
+The *diffuser* whose code is in `diffuser.scad` is the easiest part. It's pretty much just a single extruded 2d sketch with some *half dovetails* from `dovetail.scad` on the tips. It slides into the matching half dovetails on the *lamp* with only a single visible seam.

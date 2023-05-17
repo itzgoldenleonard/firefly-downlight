@@ -1,3 +1,9 @@
+/* This is a template that you can use to precisely score out the right shape
+ * on a piece of sheet metal to cut the sheet in the correct shape
+ * When you have cut you can also use it to measure that your cut sheet
+ * will actually fit into the lamp and make the needed adjustments before it's too late
+ */
+
 use <../utility.scad>
 include <../dimensions.scad>
 
