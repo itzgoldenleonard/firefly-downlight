@@ -23,6 +23,8 @@
 
 # Assembly
 
+![Animation of assembly](./images/assembly.webp)
+
 1. Mark out the location on the bottom of the cabinet where you intend to place the lamp
 2. Slide the diffuser onto the lamp, it might require a few light bonks with a rubber mallet, it's meant to be tight
 3. Apply copious amounts of magic tape to the flat face of the lamp mount and peel the protective plastic off of the sticky side. Be careful that the tape doesnt extend over the edges though, that will make it much harder to get the lamp on and off.
