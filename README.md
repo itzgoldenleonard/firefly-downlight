@@ -1,3 +1,5 @@
+![Real picture of the lamps in use](./docs/images/packshot.webp)
+
 # The firefly downlight
 
 Functional, minimalist and modern downlight meant to be hung on the bottom of a cabinet or similar. Designed with kitchen use in mind but can be used wherever you like. The design is free and open source, easily moddable and 3d printable, so the barrier to manufacturing your own (customized) units is low.
@@ -21,3 +23,5 @@ If you decide to make some of these lamps for yourself it would be great if you 
 If you have generally useful modifications to this project, either the design itself or the documentation, you're very welcome to make a pull request and get your additions merged into this repo. Just make sure not to use any non-free file formats or your pull request will be rejected. Also feel free to go crazy and make improvements or modifications that might not be relevant to anyone but yourself, but if it doesnt line up with my vision of the project dont expect it to be merged into **this** repo.
 
 Be creative and make the best of it. I found out that these lamps are actually also great for soldering, so I designed a [little part](./CAD/tools/helping_hands_mount.scad) that you can use to mount it to a pair of helping hands. I'm sure there are plenty of other uses that I cant think of, so it's your turn now to do that, maybe think a little outside the box and dont be afraid to experiment.
+
+![Render of a lamp](./docs/images/render.webp)
